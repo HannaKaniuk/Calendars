@@ -16,12 +16,12 @@
     flex-direction: column;
     align-items:flex-end;
     justify-content: center;
-    padding: 20px; /* Фиксированная высота контейнера */
-     /* Прокрутка по высоте */
+    padding: 20px; 
+     
   }
   
   .custom-schedule {
-    width: 80% !important; /* Установите ширину */
+    width: 80% !important; 
    
     
   }
