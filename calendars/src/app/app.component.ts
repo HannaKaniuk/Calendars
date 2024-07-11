@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
+import { DayService, WeekService, WorkWeekService, MonthService, AgendaService,ScheduleModule } from '@syncfusion/ej2-angular-schedule';
+import { View } from '@syncfusion/ej2-angular-schedule';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [],
+  imports: [ScheduleModule],
+  providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService],
+  template: `<ejs-schedule [selectedDate]= "setDate" [currentView]="setView"> </ejs-schedule>`,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'homes';
+  title = 'calendars';
+  public setView: View = 'Month';
+public setDate: Date= new Date (2024, 7, 11)
 }
 
 
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/
