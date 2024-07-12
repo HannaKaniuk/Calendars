@@ -1,0 +1,12 @@
+{
+    "/api": {
+      "target": "https://js.syncfusion.com/demos/ejservices",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/api": ""
+      },
+      "logLevel": "debug"
+    }
+  }
+  
