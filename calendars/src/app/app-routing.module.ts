@@ -4,6 +4,7 @@ import { CustomersComponent } from './customers/customers.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ConfigComponent } from './config/config.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'customers', component: CustomersComponent },
   { path: 'event-calendar', component: EventCalendarComponent },
   { path: 'project-list', component: ProjectListComponent},
-  { path: 'settings', component: SettingsComponent}
+  { path: 'settings', component: SettingsComponent},
+  { path: 'config', component: ConfigComponent },
 ];
 
 @NgModule({

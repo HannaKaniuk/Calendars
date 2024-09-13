@@ -1,0 +1,14 @@
+<h2>Configuration</h2>
+
+<button (click)="showConfig()">Load Config</button>
+
+<div *ngIf="config">
+  <h3>Config Details:</h3>
+  <p>Heroes URL: {{ config.heroesUrl }}</p>
+  <p>Text File: {{ config.textfile }}</p>
+  <p>Date: {{ config.date | date }}</p>
+</div>
+
+<div *ngIf="error" class="error">
+  <p>Error: {{ error.message }}</p>
+</div>

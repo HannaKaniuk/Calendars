@@ -10,8 +10,6 @@ import { TreeViewModule, DragAndDropEventArgs, NodeSelectEventArgs, TreeViewComp
 import { waitingList} from './data';  
 import { closest } from '@syncfusion/ej2-base';
 
-
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -26,15 +24,10 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
   @ViewChild('treeObj') treeObj!: TreeViewComponent;
 
- 
-
   public scheduleInstance!: ScheduleComponent;
-
   public title = 'calendars';
-
   public setView: View = 'Week';
   public setDate: Date = new Date(2024, 0, 11);
-
   public waitingList = waitingList;  
   public field: Record<string, any> = { dataSource: waitingList, id: 'Id', text: 'Name' };
   public allowDragAndDrop = true;
@@ -53,12 +46,13 @@ export class AppComponent implements AfterViewInit {
     this.router.navigate(['/project-list']);
   }
 
+  showConfig(){
+    this.router.navigate(['/config']); 
+  }
 
   ngAfterViewInit() {
     this.scheduleInstance = this.scheduleObj;
   }
-
-
 
   public onDragStart(args: any): void {
     if (args && args.scroll) {
@@ -79,8 +73,7 @@ export class AppComponent implements AfterViewInit {
       args.dropIndicator = 'e-no-drop'; 
     }
   }
-  
-  
+   
   public onTreeDragStop(args: DragAndDropEventArgs): void {
     let scheduleElem: Element = closest(args.target, '.e-content-wrap') as Element;
     try {
@@ -127,7 +120,6 @@ export class AppComponent implements AfterViewInit {
     }
   }
   
-
   public onTreeDragStart(): void {
     document.body.classList.add('e-disble-not-allowed');
   }
