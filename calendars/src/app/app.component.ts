@@ -45,6 +45,13 @@ export class AppComponent implements AfterViewInit {
     this.router.navigate(['/customers']);
   }
   
+  navigateToPageSettings(){
+    this.router.navigate(['/settings']);
+  }
+
+  navigateToPageProject(){
+    this.router.navigate(['/project-list']);
+  }
 
 
   ngAfterViewInit() {
