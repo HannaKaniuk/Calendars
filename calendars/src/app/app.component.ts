@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   DayService, WeekService, WorkWeekService, MonthService, AgendaService,
    ScheduleModule, DragAndDropService, ResizeService,
@@ -9,7 +9,7 @@ import { View} from '@syncfusion/ej2-angular-schedule';
 import { TreeViewModule, DragAndDropEventArgs, NodeSelectEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
 import { waitingList} from './data';  
 import { closest } from '@syncfusion/ej2-base';
-import { RouterModule } from '@angular/router';
+
 
 
 @Component({

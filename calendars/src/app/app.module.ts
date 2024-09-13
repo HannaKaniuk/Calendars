@@ -6,12 +6,9 @@ import { ScheduleModule, RecurrenceEditorModule } from '@syncfusion/ej2-angular-
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
-import { CustomersModule } from './customers/customers.module';
+
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     ScheduleModule, 
@@ -20,7 +17,7 @@ import { CustomersModule } from './customers/customers.module';
     DateTimePickerModule, 
     TreeViewModule, 
     AppRoutingModule,
-    CustomersModule
+    AppModule
   ],
   providers: [],
   bootstrap: [AppComponent]
