@@ -9,15 +9,17 @@ import { View} from '@syncfusion/ej2-angular-schedule';
 import { TreeViewModule, DragAndDropEventArgs, NodeSelectEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
 import { waitingList} from './data';  
 import { closest } from '@syncfusion/ej2-base';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ScheduleModule, TreeViewModule],
+  imports: [ScheduleModule, TreeViewModule,RouterModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService, DragAndDropService, ResizeService],
+
 })
 export class AppComponent implements AfterViewInit {
 
@@ -39,7 +41,8 @@ export class AppComponent implements AfterViewInit {
 
   constructor(private router: Router) {}
   navigateToPage() {
-    this.router.navigate(['/client']);
+    console.log('Navigating to client page...');
+    this.router.navigate(['/customers']);
   }
   
 
