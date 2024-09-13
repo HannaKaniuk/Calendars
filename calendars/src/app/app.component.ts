@@ -1,62 +1,54 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   DayService, WeekService, WorkWeekService, MonthService, AgendaService,
-  RecurrenceEditorModule, ScheduleModule, DragAndDropService, ResizeService,
-  CellClickEventArgs,
-  ScheduleComponent
+   ScheduleModule, DragAndDropService, ResizeService,
+  ScheduleComponent, CellClickEventArgs
 } from '@syncfusion/ej2-angular-schedule';
-import { View, EventSettingsModel } from '@syncfusion/ej2-angular-schedule';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
-import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
-import { DragAndDropEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { View} from '@syncfusion/ej2-angular-schedule';
+import { TreeViewModule, DragAndDropEventArgs, NodeSelectEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
+import { waitingList} from './data';  
+import { closest } from '@syncfusion/ej2-base';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ScheduleModule, RecurrenceEditorModule, DropDownListModule, DateTimePickerModule, TreeViewModule],
+  imports: [ScheduleModule, TreeViewModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService, DragAndDropService, ResizeService],
 })
-export class AppComponent {
-  @ViewChild('scheduleObj', { static: false }) scheduleObj!: ScheduleComponent;
+export class AppComponent implements AfterViewInit {
+
+  @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
+  @ViewChild('treeObj') treeObj!: TreeViewComponent;
+
+ 
+
   public scheduleInstance!: ScheduleComponent;
-  
-  title = 'calendars';
+
+  public title = 'calendars';
+
   public setView: View = 'Week';
   public setDate: Date = new Date(2024, 0, 11);
-  public eventObject: EventSettingsModel = {
-    dataSource: [
-      {
-        Id: 1,
-        EventTitle: 'Art Exhibition',
-        EventStart: new Date(2024, 0, 13, 2, 0),
-        EventEnd: new Date(2024, 0, 13, 3, 0),
-        Venue: 'Main Hall'
-      },
-      {
-        Id: 2,
-        EventTitle: 'Science Fair',
-        EventStart: new Date(2024, 0, 14, 10, 0),
-        EventEnd: new Date(2024, 0, 14, 12, 0),
-        Venue: 'Auditorium'
-      }
-    ],
-    fields: {
-      id: 'Id',
-      subject: { name: 'EventTitle', default: "New Event", title: "Enter Title" },
-      startTime: { name: 'EventStart' },
-      endTime: { name: 'EventEnd' }
-    }
-  };
+
+  public waitingList = waitingList;  
+  public field: Record<string, any> = { dataSource: waitingList, id: 'Id', text: 'Name' };
+  public allowDragAndDrop = true;
 
   constructor(private router: Router) {}
-
   navigateToPage() {
-    this.router.navigate(['/target-page']);
+    this.router.navigate(['/client']);
   }
+  
+
+
+  ngAfterViewInit() {
+    this.scheduleInstance = this.scheduleObj;
+  }
+
+
 
   public onDragStart(args: any): void {
     if (args && args.scroll) {
@@ -70,39 +62,68 @@ export class AppComponent {
     }
   }
 
-  public onVenueChange(event: Event): void {
-    const selectedVenue = (event.target as HTMLSelectElement).value;
-    if (Array.isArray(this.eventObject.dataSource)) {
-      this.eventObject.dataSource = this.eventObject.dataSource.filter(e => e['Venue'] === selectedVenue);
+  public onTreeDrag(args: DragAndDropEventArgs): void {
+    if (args.target && args.target.classList.contains('e-work-cells')) {
+      args.dropIndicator = 'e-drop-okay';
+    } else {
+      args.dropIndicator = 'e-no-drop'; 
     }
   }
-
-  public waitingList: { Id: number, Name: string } []= [
-    {
-      Id: 1,
-      Name: 'Виставка 1 зала'
-    },
-    {
-      Id: 2,
-      Name: 'Виставка 2 зала'
-    },
-    {
-      Id: 3,
-      Name: 'Виставка 3 зала'
-    },
-  ];
-
-  public field: Object = { dataSource: this.waitingList, id: 'Id', text: 'Name' };
-
-  onTreeDragStop(args: DragAndDropEventArgs): void {
-    let cellData: CellClickEventArgs = this.scheduleInstance.getCellDetails(args.target);
-    let eventData: { [key: string]: Object} = {
-      Subject: args.draggedNodeData['time'],
-      SrartTime: cellData.startTime,
-      EndTime: cellData.endTime,
-      IsAllDay: cellData.isAllDay
-    };
-    this.scheduleInstance.addEvent(eventData);
   
+  
+  public onTreeDragStop(args: DragAndDropEventArgs): void {
+    let scheduleElem: Element = closest(args.target, '.e-content-wrap') as Element;
+    try {
+      if (scheduleElem && args.target.classList.contains('e-work-cells')) {
+        let treeViewData: Record<string, any>[] = this.treeObj.fields.dataSource as Record<string, any>[];
+        let draggedNodeId = parseInt(args.draggedNodeData['id'] as string, 10);
+  
+        let filteredData: Record<string, any>[] = treeViewData.filter(
+          (item: any) => item.Id === draggedNodeId
+        );
+  
+        if (filteredData.length > 0) {
+          let cellData: CellClickEventArgs = this.scheduleObj.getCellDetails(args.target);
+          if (cellData) {
+            
+            let maxID: number = Number(this.scheduleObj.getEventMaxID()) + 1; 
+            let eventData: Record<string, any> = {
+            Id: maxID,
+            Subject: filteredData[0]['Name'],
+            Description: filteredData[0]['Description'] || '',
+            StartTime: new Date(cellData.startTime), 
+            EndTime: new Date(cellData.endTime),      
+            IsAllDay: cellData.isAllDay
+          };
+           
+            this.scheduleObj.openEditor(eventData, 'Add', true);
+            
+            let updatedList: Record<string, any>[] = treeViewData.filter(
+              (item: any) => item.Id !== draggedNodeId
+            );
+            this.treeObj.fields.dataSource = updatedList;
+            
+          } else {
+            console.error('Failed to get cell details');
+          }
+        } else {
+          console.error('Dragged node data not found');
+        }
+      } else {
+        console.error('Invalid drop target');
+      }
+    } catch (error) {
+      console.error('Error adding event:', error);
+    }
+  }
+  
+
+  public onTreeDragStart(): void {
+    document.body.classList.add('e-disble-not-allowed');
+  }
+
+  public onItemSelecting(args: NodeSelectEventArgs): void {
+    console.log('Node is being selected', args);
   }
 }
+

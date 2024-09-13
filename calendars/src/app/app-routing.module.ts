@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { TargetPageComponent } from './target-page/target-page.component';
+
 
 const routes: Routes = [
-  { path: '', component: AppComponent },
-  { path: 'target-page', component: TargetPageComponent }
+  { 
+    path: 'client', 
+    loadChildren: () => import('./client/client.module').then(m => 
+      m.ClientModule) 
+    },
+    {
+      path: '',
+      redirectTo: '',
+      pathMatch: 'full'
+    }
 ];
 
 @NgModule({
