@@ -5,15 +5,34 @@ import {
    ScheduleModule, DragAndDropService, ResizeService,
   ScheduleComponent, CellClickEventArgs
 } from '@syncfusion/ej2-angular-schedule';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { View} from '@syncfusion/ej2-angular-schedule';
 import { TreeViewModule, DragAndDropEventArgs, NodeSelectEventArgs, TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
-import { waitingList} from './data';  
+import { waitingList} from '../assets/data';  
 import { closest } from '@syncfusion/ej2-base';
+import { ProfileEditorComponent } from './profile-editor/profile-editor.component';
+
+export type EditorType = 'name' | 'profile';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ScheduleModule, TreeViewModule,RouterModule],
+  imports: [
+    ScheduleModule, 
+    TreeViewModule,
+    RouterModule,
+    ProfileEditorComponent,
+    ReactiveFormsModule,
+    CommonModule],
+  template: `
+    <nav>
+      <button type="button" (click)="toggleEditor('profile')">
+        Profile Editor
+      </button>
+    </nav>
+    <app-profile-editor *ngIf="showProfileEditor"></app-profile-editor>
+  `,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService, DragAndDropService, ResizeService],
@@ -48,6 +67,16 @@ export class AppComponent implements AfterViewInit {
 
   showConfig(){
     this.router.navigate(['/config']); 
+  }
+
+  editor: EditorType = 'name';
+
+  get showProfileEditor() {
+    return this.editor === 'profile';
+  }
+
+  toggleEditor(type: EditorType) {
+    this.editor = type;
   }
 
   ngAfterViewInit() {
