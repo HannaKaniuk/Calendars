@@ -12,6 +12,7 @@ import { waitingList } from '../../assets/data';
 import { closest } from '@syncfusion/ej2-base';
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
+import { DateFormatPipe } from '../pipes/date-format.pipe';
 
 @Component({
   selector: 'app-calendar',
@@ -22,7 +23,7 @@ import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
     DayService, WeekService, WorkWeekService, MonthService, AgendaService,
     DragAndDropService, ResizeService
   ],
-  imports: [RouterModule, ScheduleModule, TreeViewModule]
+  imports: [RouterModule, ScheduleModule, TreeViewModule,DateFormatPipe]
 })
 export class CalendarComponent implements AfterViewInit {
   @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
@@ -112,4 +113,5 @@ export class CalendarComponent implements AfterViewInit {
   public onItemSelecting(args: NodeSelectEventArgs): void {
     console.log('Node is being selected', args);
   }
+  public sampleDate: Date = new Date(2024, 8, 12);
 }
