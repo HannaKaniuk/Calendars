@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router,RouterModule } from '@angular/router';
-
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,20 +10,16 @@ import { Router,RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
   constructor(private router: Router) {}
+
   navigateToPage() {
-    console.log('Navigating to client page...');
     this.router.navigate(['/customers']);
   }
   
-  navigateToPageSettings(){
+  navigateToPageSettings() {
     this.router.navigate(['/settings']);
   }
 
-  navigateToPageProject(){
+  navigateToPageProject() {
     this.router.navigate(['/project-list']);
-  }
-
-  showConfig(){
-    this.router.navigate(['/config']); 
   }
 }

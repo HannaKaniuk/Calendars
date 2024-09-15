@@ -1,27 +1,30 @@
+import { View } from '@syncfusion/ej2-angular-schedule';
+import { RouterModule } from '@angular/router';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { NodeSelectEventArgs } from '@syncfusion/ej2-angular-navigations';
 import { ScheduleComponent, CellClickEventArgs } from '@syncfusion/ej2-angular-schedule';
-import { TreeViewComponent, DragAndDropEventArgs,NodeSelectEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { TreeViewComponent, DragAndDropEventArgs } from '@syncfusion/ej2-angular-navigations';
 import {
   DayService, WeekService, WorkWeekService, MonthService, AgendaService,
-    DragAndDropService, ResizeService,
+  DragAndDropService, ResizeService
 } from '@syncfusion/ej2-angular-schedule';
 import { waitingList } from '../../assets/data';
 import { closest } from '@syncfusion/ej2-base';
-import { View} from '@syncfusion/ej2-angular-schedule';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  templateUrl:'./calendar.component.html',
+  templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
-  providers: [DayService, WeekService, WorkWeekService, MonthService, AgendaService, DragAndDropService, ResizeService],
-  imports:[CommonModule,RouterModule,]
+  providers: [
+    DayService, WeekService, WorkWeekService, MonthService, AgendaService,
+    DragAndDropService, ResizeService
+  ],
+  imports: [RouterModule, ScheduleModule, TreeViewModule]
 })
-
 export class CalendarComponent implements AfterViewInit {
-
   @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
   @ViewChild('treeObj') treeObj!: TreeViewComponent;
 
@@ -32,8 +35,6 @@ export class CalendarComponent implements AfterViewInit {
   public waitingList = waitingList;  
   public field: Record<string, any> = { dataSource: waitingList, id: 'Id', text: 'Name' };
   public allowDragAndDrop = true;
-
-  constructor(private router: Router) {}
 
   ngAfterViewInit() {
     this.scheduleInstance = this.scheduleObj;
@@ -82,12 +83,14 @@ export class CalendarComponent implements AfterViewInit {
               EndTime: new Date(cellData.endTime),      
               IsAllDay: cellData.isAllDay
             };
+           
             this.scheduleObj.openEditor(eventData, 'Add', true);
             
             let updatedList: Record<string, any>[] = treeViewData.filter(
               (item: any) => item.Id !== draggedNodeId
             );
             this.treeObj.fields.dataSource = updatedList;
+            
           } else {
             console.error('Failed to get cell details');
           }

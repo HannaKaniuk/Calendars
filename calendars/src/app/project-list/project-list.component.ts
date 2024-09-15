@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './project-list.component.css'
 })
 export class ProjectListComponent {
-
 }
