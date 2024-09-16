@@ -1,9 +1,8 @@
-import { View } from '@syncfusion/ej2-angular-schedule';
-import { RouterModule } from '@angular/router';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { NodeSelectEventArgs } from '@syncfusion/ej2-angular-navigations';
-import { ScheduleComponent, CellClickEventArgs } from '@syncfusion/ej2-angular-schedule';
-import { TreeViewComponent, DragAndDropEventArgs } from '@syncfusion/ej2-angular-navigations';
+import { BehaviorSubject } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { ScheduleComponent, CellClickEventArgs,View } from '@syncfusion/ej2-angular-schedule';
+import { TreeViewComponent, DragAndDropEventArgs, NodeSelectEventArgs } from '@syncfusion/ej2-angular-navigations';
 import {
   DayService, WeekService, WorkWeekService, MonthService, AgendaService,
   DragAndDropService, ResizeService
@@ -23,17 +22,19 @@ import { DateFormatPipe } from '../pipes/date-format.pipe';
     DayService, WeekService, WorkWeekService, MonthService, AgendaService,
     DragAndDropService, ResizeService
   ],
-  imports: [RouterModule, ScheduleModule, TreeViewModule,DateFormatPipe]
+  imports: [RouterModule, ScheduleModule, TreeViewModule, DateFormatPipe]
 })
 export class CalendarComponent implements AfterViewInit {
   @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
   @ViewChild('treeObj') treeObj!: TreeViewComponent;
 
+  private waitingListSubject = new BehaviorSubject<any[]>(waitingList);
+  waitingList$ = this.waitingListSubject.asObservable();
+
   public scheduleInstance!: ScheduleComponent;
   public title = 'calendars';
   public setView: View = 'Week';
   public setDate: Date = new Date(2024, 0, 11);
-  public waitingList = waitingList;  
   public field: Record<string, any> = { dataSource: waitingList, id: 'Id', text: 'Name' };
   public allowDragAndDrop = true;
 
@@ -57,7 +58,7 @@ export class CalendarComponent implements AfterViewInit {
     if (args.target && args.target.classList.contains('e-work-cells')) {
       args.dropIndicator = 'e-drop-okay';
     } else {
-      args.dropIndicator = 'e-no-drop'; 
+      args.dropIndicator = 'e-no-drop';
     }
   }
 
@@ -75,23 +76,23 @@ export class CalendarComponent implements AfterViewInit {
         if (filteredData.length > 0) {
           let cellData: CellClickEventArgs = this.scheduleObj.getCellDetails(args.target);
           if (cellData) {
-            let maxID: number = Number(this.scheduleObj.getEventMaxID()) + 1; 
+            let maxID: number = Number(this.scheduleObj.getEventMaxID()) + 1;
             let eventData: Record<string, any> = {
               Id: maxID,
               Subject: filteredData[0]['Name'],
               Description: filteredData[0]['Description'] || '',
-              StartTime: new Date(cellData.startTime), 
-              EndTime: new Date(cellData.endTime),      
+              StartTime: new Date(cellData.startTime),
+              EndTime: new Date(cellData.endTime),
               IsAllDay: cellData.isAllDay
             };
-           
+
             this.scheduleObj.openEditor(eventData, 'Add', true);
-            
+
             let updatedList: Record<string, any>[] = treeViewData.filter(
               (item: any) => item.Id !== draggedNodeId
             );
+            this.waitingListSubject.next(updatedList); // Update the BehaviorSubject
             this.treeObj.fields.dataSource = updatedList;
-            
           } else {
             console.error('Failed to get cell details');
           }
@@ -113,5 +114,6 @@ export class CalendarComponent implements AfterViewInit {
   public onItemSelecting(args: NodeSelectEventArgs): void {
     console.log('Node is being selected', args);
   }
+
   public sampleDate: Date = new Date(2024, 8, 12);
 }
