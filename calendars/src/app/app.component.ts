@@ -2,14 +2,9 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { 
   DayService, WeekService, WorkWeekService, MonthService, AgendaService,
-  ScheduleModule, DragAndDropService, ResizeService, ScheduleComponent, CellClickEventArgs,
-  View 
+  ScheduleModule, DragAndDropService, ResizeService
 } from '@syncfusion/ej2-angular-schedule';
-import { 
-  TreeViewModule, DragAndDropEventArgs, NodeSelectEventArgs, TreeViewComponent 
-} from '@syncfusion/ej2-angular-navigations';
-import { waitingList } from '../assets/data'; 
-import { closest } from '@syncfusion/ej2-base';
+import { TreeViewModule} from '@syncfusion/ej2-angular-navigations';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { CalendarComponent } from './calendar/calendar.component';
@@ -23,7 +18,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     RouterModule, 
     SidebarComponent, 
     HeaderComponent, 
-    CalendarComponent
+    CalendarComponent,
+    
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -38,4 +34,6 @@ import { CalendarComponent } from './calendar/calendar.component';
   ]
 })
 export class AppComponent {
+
 }
+

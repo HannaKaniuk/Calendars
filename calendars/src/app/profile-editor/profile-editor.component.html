@@ -1,0 +1,33 @@
+<div class="modal-container w-full h-full overflow-hidden transition-[height] duration-300 fixed top-0 left-0 bg-white bg-opacity-90 z-50 flex justify-center items-center">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <label for="first-name">Ім'я: </label>
+        <input id="first-name" type="text" formControlName="firstName" required>
+      
+        <label for="last-name">Прізвище: </label>
+        <input id="last-name" type="text" formControlName="lastName">
+      
+        <div formGroupName="address">
+          <h2>Адреса виставки</h2>
+      
+          <label for="street">Вулиця: </label>
+          <input id="street" type="text" formControlName="street">
+      
+          <label for="city">Місто: </label>
+          <input id="city" type="text" formControlName="city">
+      
+          <label for="state">Дата: </label>
+          <input id="state" type="date" formControlName="state">
+      
+        </div>
+      
+        <p>Перевірте Ваші дані</p>
+        <button type="submit" [disabled]="!profileForm.valid">Зареєструватись</button>
+      </form>  
+      <!-- <hr> -->
+      
+      <!-- <p>Form Value: {{ profileForm.value | json }}</p>
+      <p>Form Status: {{ profileForm.status }}</p> -->
+    </div>
+  </div>
+  
