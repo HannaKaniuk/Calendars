@@ -14,7 +14,7 @@ export class SidebarComponent {
   navigateToPage() {
     this.router.navigate(['/customers']);
   }
-  
+
   navigateToPageSettings() {
     this.router.navigate(['/settings']);
   }

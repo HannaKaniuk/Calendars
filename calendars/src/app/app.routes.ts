@@ -16,7 +16,7 @@ export const routes: Routes = [
   { path: 'event-calendar', component: EventCalendarComponent },
   { path: 'project-list', component: ProjectListComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'profile-editor', component: ProfileEditorComponent } 
+   { path: 'profile-editor', component: ProfileEditorComponent } 
 ];
 
 @NgModule({

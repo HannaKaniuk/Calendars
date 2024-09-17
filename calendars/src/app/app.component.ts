@@ -8,6 +8,9 @@ import { TreeViewModule} from '@syncfusion/ej2-angular-navigations';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { HttpClientModule } from '@angular/common/http';
+import { PostService } from './services/post.service';
+
 
 @Component({
   selector: 'app-root',
@@ -19,7 +22,7 @@ import { CalendarComponent } from './calendar/calendar.component';
     SidebarComponent, 
     HeaderComponent, 
     CalendarComponent,
-    
+    HttpClientModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -30,10 +33,12 @@ import { CalendarComponent } from './calendar/calendar.component';
     MonthService, 
     AgendaService, 
     DragAndDropService, 
-    ResizeService
+    ResizeService,
+    PostService
   ]
 })
 export class AppComponent {
+  title = 'calendars';
 
 }
 

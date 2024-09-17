@@ -25,3 +25,44 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+
+
+
+
+
+
+
+Проект складається з кількох компонентів Angular, які разом забезпечують функціональність для управління календарем, профілями користувачів та навігацією. Ось короткий огляд:
+
+CalendarComponent:
+
+Використовує Syncfusion ScheduleComponent для управління календарем.
+Має TreeViewComponent для відображення списку елементів.
+Реалізує функціонал drag-and-drop для перенесення елементів в календар.
+
+CustomersComponent:
+Завантажує та відображає список користувачів за допомогою сервісу PostService.
+HeaderComponent:
+
+Відповідає за навігацію до редактора профілю через метод toggleEditor.
+ProfileEditorComponent:
+
+Форма для редагування профілю користувача з використанням ReactiveFormsModule.
+
+PostService:
+Здійснює HTTP запити для отримання даних користувачів з API (jsonplaceholder.typicode.com).
+
+SidebarComponent:
+Забезпечує навігацію між різними сторінками додатку.
+
+AppComponent:
+Основний компонент, що об'єднує інші компоненти і імплементує основні модулі та сервіси.
+
+Важливі аспекти:
+Використовуються standalone компоненти Angular.
+ReactiveForms для роботи з формами.
+Syncfusion для календаря.
+HttpClientModule для обробки HTTP запитів.
+Проект структурований, використовує сучасні Angular можливості і бібліотеки для створення інтерактивного інтерфейсу користувача.
